@@ -90,7 +90,6 @@ function SaveRom()
         return function (data, name) {
             var blob = new Blob([data], {type: "application/octet-stream"}),
             url = window.URL.createObjectURL(blob);
-            console.log(`Bytes: ${data}`);
             a.href = url;
             a.download = name;
             a.click();

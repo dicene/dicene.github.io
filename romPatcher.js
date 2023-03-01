@@ -57,8 +57,14 @@ var waveBeamTrailPalettes = [ 0xD01AA ];
 var superMissilePalettes = [ 0xD01B0 ];
 var grappleBeamPalettes = [ 0xDC687 ];
 
-var romBytes = [];
-var romFileName = "";
+var validateRomStatus = document.getElementById('validateRomStatus');
+var patchControlsStatus = document.getElementById('patchControlsStatus');
+var patchMoonwalkStatus = document.getElementById('patchMoonwalkStatus');
+var patchPalettesStatus = document.getElementById('patchPalettesStatus');
+var patchSamusPalettesStatus = document.getElementById('patchSamusPalettesStatus');
+var patchBeamPalettesStatus = document.getElementById('patchBeamPalettesStatus');
+var patchEnemyPalettesStatus = document.getElementById('patchEnemyPalettesStatus');
+var patchBossPalettesStatus = document.getElementById('patchBossPalettesStatus');
 
 function PatchControls()
 {
@@ -73,12 +79,57 @@ function PatchControls()
     }
 }
 
-function LoadRom(bytes)
+function ProcessRom(bytes, fileName)
 {
-    romBytes = bytes;
-    ValidateRom();
-    PatchControls();
-    SaveRom();    
+    ValidateRom(bytes);
+    PatchControls(bytes);
+    SaveRom(bytes, fileName);
+}
+
+function TestRom()
+{
+    let testFileName = 'sm map rando 11 - 95FqtcuX0Th1xfEQ-CL8Zw.smc';
+
+    var success = document.createElement('h1');
+    success.appendChild(document.createTextNode(`Reading mock-file...`));
+    document.body.appendChild(success);
+
+    const arrayBuffer = Uint8Array.from(window.atob(romData), c => c.charCodeAt(0));
+    
+    success = document.createElement('h1');
+    success.appendChild(document.createTextNode(`Reading ${arrayBuffer.length / 1024} KB mock-file...`));
+    document.body.appendChild(success);
+    
+    ProcessRom(arrayBuffer, testFileName)
+
+    // var oReq = new XMLHttpRequest();
+    // oReq.open("GET", `./${testFileName}`, true);
+    // romFileName = testFileName;
+    // oReq.responseType = "arraybuffer";
+    // oReq.onerror = function(error)
+    // {
+    //     var success = document.createElement('h1');
+    //     success.appendChild(document.createTextNode(`Error! ${error}`));
+    //     document.body.appendChild(success);
+    //     console.log(error);
+    // }
+
+    // oReq.onload = function(oEvent)
+    // {
+    //     var arrayBuffer = oReq.response;
+
+    //     // if you want to access the bytes:
+    //     var byteArray = new Uint8Array(arrayBuffer);
+
+    //     var success = document.createElement('h1');
+    //     success.appendChild(document.createTextNode(`Loading ${byteArray.length / 1024} KB...`));
+    //     document.body.appendChild(success);
+
+    //     ProcessRom(byteArray);
+    // };
+
+    // oReq.send();
+    return false;
 }
 
 function SaveRom()
@@ -97,26 +148,39 @@ function SaveRom()
         };
     }());
 
+    let romName = romFileName.substring(0, romFileName.lastIndexOf('.'));
+    let romExtension = romFileName.substring(romFileName.lastIndexOf('.'));
+    let newName = romName + " (customised)" + romExtension;
+
     var success = document.createElement('h1');
-    success.appendChild(document.createTextNode(`Writing ${romBytes.length / 1024} bytes to file...`));
+    success.appendChild(document.createTextNode(`Writing ${romBytes.length / 1024} KB to file...`));
     document.body.appendChild(success);
 
-    saveByteArray(romBytes, 'sm rando.smc');
+    saveByteArray(romBytes, newName);
 }
 
-function ValidateRom()
+function ValidateRom(bytes)
 {
+    var success = document.createElement('h1');
+    success.appendChild(document.createTextNode('Validating rom!'));
+    document.body.appendChild(success);
+
+    validateRomStatus.classList.remove('d-none');
+    
     for (let i = 0; i < SM_ROM_BEGINNING_BYTES.length; i++) {
-        if (romBytes[i] != SM_ROM_BEGINNING_BYTES[i]) {
+        if (bytes[i] != SM_ROM_BEGINNING_BYTES[i]) {
             var warning = document.createElement('h1');
             warning.appendChild(document.createTextNode('Invalid rom!'));
             document.body.appendChild(warning);
+            validateRomStatus.classList.add('list-group-item-danger');
             return;
         }
     }
 
-    var success = document.createElement('h1');
-    success.appendChild(document.createTextNode('Valid rom!'));
+    validateRomStatus.classList.add('list-group-item-success');
+
+    success = document.createElement('h1');
+    success.appendChild(document.createTextNode('Validated!'));
     document.body.appendChild(success);
 }
 
@@ -128,26 +192,26 @@ function WriteBytes(address, bytes)
     }
 }
 
-var input = document.createElement('input');
-input.type = 'file';
+function OnFileSelected(input)
+{
+    var success = document.createElement('h1');
+    success.appendChild(document.createTextNode(`OnFileSelected(${input.files[0].name})`));
+    document.body.appendChild(success);
 
-input.onchange = e =>
-{ 
-    // getting a hold of the file reference
-    var file = e.target.files[0]; 
+    var file = input.files[0];
+    romFileName = file.name;
 
-    // setting up the reader
     var reader = new FileReader();
     reader.readAsArrayBuffer(file);
 
-    // here we tell the reader what to do when it's done reading...
-    reader.onload = readerEvent => {
-        let content = readerEvent.target.result;
-        let bytes = new Uint8Array(content);
-        LoadRom(bytes);
-   }
+    reader.onload = fileReaderOnload;
 }
 
-document.body.appendChild(input);
+function fileReaderOnload(readerEvent)
+{
+    let content = readerEvent.target.result;
+    let bytes = new Uint8Array(content);
+    ProcessRom(bytes);
+}
 
-input.click();
+TestRom();

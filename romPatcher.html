@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Super Metroid Rom Customizer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+
+<body>
+    <script src="./sm map rando 11 - 95FqtcuX0Th1xfEQ-CL8Zw.js"></script>
+    <script src="jquery-3.6.3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+        crossorigin="anonymous"></script>
+    <nav class="navbar navbar-expand navbar-dark bg-dark">
+        <div class="collapse navbar-collapse" id="navbarNav" style="margin-left: 10px; margin-right: 10px;">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="./index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Super Metroid Customizer</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container" style="padding-top: 30px">
+        <div class="card">
+            <div class="card-header">Customization</div>
+            <div class="card-body">
+                <h2 class="card-title mx-2">Select a Super Metroid rom to customize:</h5>
+                    <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                    <!-- <h1 id="instructionsHeader">Select a Super Metroid rom</h1> -->
+                    <form id="customization-form" class="my-3 container" onsubmit="return false;">
+                        <div class="form-group row my-0">
+                            <label class="col-sm-3" for="rom">Base ROM</label>
+                            <input class="col-sm-9 form-control-file" type="file" id="baseRom" onchange="OnFileSelected(this);">
+                        </div>
+                        <input type="submit" class="btn btn-primary my-1" value="Run with test rom" id="testRomButton" onclick="TestRom();">
+                        <div class="row"></div>
+                        <input type="submit" class="btn btn-primary my-2" value="Download ROM" id="downloadRomButton">
+                    </form>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-none" id="validateRomStatus">Validating rom...</li>
+                        <li class="list-group-item d-none" id="patchControlsStatus">Patching Controls...</li>
+                        <li class="list-group-item d-none" id="patchMoonwalkStatus">Patch Moonwalk...</li>
+                        <li class="list-group-item d-none" id="patchPalettesStatus">Patching Palettes...</li>
+                        <li class="list-group-item mx-3 d-none" id="patchSamusPalettesStatus">Patching Samus...</li>
+                        <li class="list-group-item mx-3 d-none" id="patchBeamPalettesStatus">Patching Beams...</li>
+                        <li class="list-group-item mx-3 d-none" id="patchEnemyPalettesStatus">Patching Enemies...</li>
+                        <li class="list-group-item mx-3 d-none" id="patchBossPalettesStatus">Patching Bosses...</li>
+                    </ul>
+            </div>
+        </div>
+    </div>
+    <script src="./romPatcher.js"></script>
+    <iframe id="downloadFrame" style="display:none;"></iframe>
+</body>
+
+</html>

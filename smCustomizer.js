@@ -75,7 +75,7 @@ var patchEnemyPalettesDisabledButton = document.getElementById('patchEnemyPalett
 var patchBossPalettesEnabledButton = document.getElementById('patchBossPalettesEnabled');
 var patchBossPalettesDisabledButton = document.getElementById('patchBossPalettesDisabled');
 
-var runCustomisationsButton = document.getElementById('runCustomisationsButton');
+var runCustomizationsButton = document.getElementById('runCustomizationsButton');
 var downloadRomButton = document.getElementById('downloadRomButton');
 
 var validateRomStatusList = document.getElementById('validateRomStatusList');
@@ -239,7 +239,7 @@ function PatchBossPalettes() {
     patchBossPalettesStatus.childNodes[0].replaceWith(patchBossPalettesStatus.childNodes[0].textContent + 'success!');
 }
 
-function RunCustomisations() {
+function RunCustomizations() {
     patchRomStatusList.classList.remove('d-none');
 
     if (patchControlsEnabledButton.checked)
@@ -256,15 +256,6 @@ function RunCustomisations() {
         PatchBossPalettes();
 
     SaveRom();
-}
-
-function TestRom() {
-    let testFileName = 'sm map rando 11 - 95FqtcuX0Th1xfEQ-CL8Zw.smc';
-    const arrayBuffer = Uint8Array.from(window.atob(romData), c => c.charCodeAt(0));
-    romBytes = arrayBuffer;
-    romFileName = testFileName;
-
-    ValidateRom();
 }
 
 function SaveRom() {
@@ -287,7 +278,7 @@ function SaveRom() {
 
     let romName = romFileName.substring(0, romFileName.lastIndexOf('.'));
     let romExtension = romFileName.substring(romFileName.lastIndexOf('.'));
-    let newName = romName + " (customised)" + romExtension;
+    let newName = romName + " (customized)" + romExtension;
 
     saveByteArray(romBytes, newName);
 }
@@ -308,7 +299,7 @@ function ValidateRom() {
     validateRomStatus.classList.add('list-group-item-success');
     validateRomStatus.childNodes[0].replaceWith('Validating rom...success!');
 
-    runCustomisationsButton.classList.remove('disabled', 'd-none');
+    runCustomizationsButton.classList.remove('disabled', 'd-none');
 }
 
 function WriteBytes(address, newBytes) {
@@ -384,7 +375,7 @@ function LoadPreviousSettings() {
 
 function SetupListeners() {
     baseRomFilePicker.onchange = OnFileSelected;
-    runCustomisationsButton.onclick = RunCustomisations;
+    runCustomizationsButton.onclick = RunCustomizations;
     patchControlsEnabledButton.onclick = () => {
         window.localStorage.setItem("patchControlsEnabled", 'true');
     };
@@ -433,5 +424,3 @@ function DebugMessage(text) {
 
 LoadPreviousSettings();
 SetupListeners();
-
-// TestRom();

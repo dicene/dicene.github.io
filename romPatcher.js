@@ -115,7 +115,7 @@ function PatchControls() {
     }
 
     patchControlsStatus.classList.add('list-group-item-success');
-    patchControlsStatus.childNodes[0].replaceWith(patchControlsStatus.childNodes[0].textContent + '...success!');
+    patchControlsStatus.childNodes[0].replaceWith(patchControlsStatus.childNodes[0].textContent + 'success!');
 }
 
 function PatchMoonwalk() {
@@ -125,7 +125,7 @@ function PatchMoonwalk() {
     WriteBytes(moonwalkOffset, moonwalkNewInstruction)
 
     patchMoonwalkStatus.classList.add('list-group-item-success');
-    patchMoonwalkStatus.childNodes[0].replaceWith('Patching moonwalk...success!');
+    patchMoonwalkStatus.childNodes[0].replaceWith(patchMoonwalkStatus.childNodes[0].textContent + 'success!');
 }
 
 function HueShiftPalettes(offsets, paletteLength, hueShift) {
@@ -134,24 +134,23 @@ function HueShiftPalettes(offsets, paletteLength, hueShift) {
             let location = paletteOffset + (i * 2);
             let paletteColor = ReadU16LE(location);
 
-            let paletteRGB = PaletteToRGB(paletteColor);//{ r: 0, g: 0, b: 0 };
-            let hsv = colorsys.rgb2Hsv(paletteRGB.r, paletteRGB.g, paletteRGB.b);//RGBToHSV(r, g, b);//{ h: 0, s: 0, v: 0 };
+            let paletteRGB = PaletteToRGB(paletteColor);
+            let hsv = colorsys.rgb2Hsv(paletteRGB.r, paletteRGB.g, paletteRGB.b);
             let newHsv = {h: (hsv.h + hueShift) % 360, s: hsv.s, v: hsv.v};
-            let newRGB = colorsys.hsv2Rgb(newHsv.h, newHsv.s, newHsv.v);//HSVToRGB(hsv)//{ r: 0, g: 0, b: 0 };
+            let newRGB = colorsys.hsv2Rgb(newHsv.h, newHsv.s, newHsv.v);
             newRGB.r = Math.floor(newRGB.r);
             newRGB.g = Math.floor(newRGB.g);
             newRGB.b = Math.floor(newRGB.b);
-            // newRGB = {r: 0, g: 100, b: 200};
-            let newPaletteColor = RGBToPalette(newRGB.r, newRGB.g, newRGB.b);//*/35000;
+            let newPaletteColor = RGBToPalette(newRGB.r, newRGB.g, newRGB.b);
             let highByte = newPaletteColor >> 8;
             let lowByte = newPaletteColor - (highByte << 8);
             var newPaletteBytes = [lowByte, highByte];
 
-            DebugMessage(`0x${decToHex(location, 4)}` + 
-            `   0x${decToHex(romBytes[location+1], 2)}${decToHex(romBytes[location], 2)} => ` + 
-            `${paletteColor}(0x${decToHex(paletteColor)}) rgb(${paletteRGB.r},${paletteRGB.g},${paletteRGB.b}) hsv(${hsv.h},${hsv.s},${hsv.v}) ` + 
-            `shifted by ${hueShift} => ` + 
-            `${newPaletteColor}(0x${decToHex(newPaletteColor, 4)}) bytes(0x${decToHex(lowByte, 2)}${decToHex(highByte, 2)}) rgb(${newRGB.r},${newRGB.g},${newRGB.b}) hsv(${newHsv.h},${newHsv.s},${newHsv.v})`);
+            // DebugMessage(`0x${decToHex(location, 4)}` + 
+            // `   0x${decToHex(romBytes[location+1], 2)}${decToHex(romBytes[location], 2)} => ` + 
+            // `${paletteColor}(0x${decToHex(paletteColor)}) rgb(${paletteRGB.r},${paletteRGB.g},${paletteRGB.b}) hsv(${hsv.h},${hsv.s},${hsv.v}) ` + 
+            // `shifted by ${hueShift} => ` + 
+            // `${newPaletteColor}(0x${decToHex(newPaletteColor, 4)}) bytes(0x${decToHex(lowByte, 2)}${decToHex(highByte, 2)}) rgb(${newRGB.r},${newRGB.g},${newRGB.b}) hsv(${newHsv.h},${newHsv.s},${newHsv.v})`);
 
             WriteBytes(location, newPaletteBytes);
         }
@@ -180,17 +179,6 @@ function RGBToPalette(r, g, b) {
     return (Math.floor(b / 8) * 1024) + (Math.floor(g / 8) * 32) + Math.floor(r / 8);
 }
 
-function RGBToHSV(rgb) {
-    return colorsys.rgb_to_hsv({r: 255, g: 255, b: 255 })
-    colorsys.stringify(hsv) // 'hsv(0, 0%, 100%)'
-    // Parsing an hex string will result in a RGB object!
-    colorsys.parseCss('#ff00ff') // { r: 255, g: 0, b: 255 }
-}
-
-function HSVToRGB(hsv) {
-
-}
-
 function ReadU16LE(address) {
     return (romBytes[address + 1] << 8) + romBytes[address];
 }
@@ -201,40 +189,54 @@ function PatchSamusPalettes() {
 
     // 20-340 on a scale of 0-360
     let hueShift = 20 + Math.floor(Math.random() * 320);
-    HueShiftPalettes(powerSuitPaletteOffsets, 0x10, 119);
+    patchSamusPalettesStatus.childNodes[0].replaceWith(patchSamusPalettesStatus.childNodes[0].textContent + `shifting hues by ${hueShift}...`);
+    HueShiftPalettes(powerSuitPaletteOffsets.concat(variaSuitPaletteOffsets)
+    .concat(gravitySuitPaletteOffsets).concat(shipPaletteOffsets), 0x10, hueShift);
 
     patchSamusPalettesStatus.classList.add('list-group-item-success');
-    patchSamusPalettesStatus.childNodes[0].replaceWith('Patching Samus palettes...shifting ${hueShift} hues...success!');
+    patchSamusPalettesStatus.childNodes[0].replaceWith(patchSamusPalettesStatus.childNodes[0].textContent + 'success!');
 }
 
 function PatchBeamPalettes() {
     patchBeamPalettesStatus.classList.remove('d-none');
     patchBeamPalettesStatus.childNodes[0].replaceWith('Patching beam palettes...');
 
-
+    let hueShift = 20 + Math.floor(Math.random() * 320);
+    patchBeamPalettesStatus.childNodes[0].replaceWith(patchBeamPalettesStatus.childNodes[0].textContent + `shifting hues by ${hueShift}...`);
+    HueShiftPalettes(beamPaletteOffsets, 0x4F, hueShift);
+    HueShiftPalettes(waveBeamTrailPalettes, 0x02, hueShift);
+    HueShiftPalettes(superMissilePalettes, 0x02, hueShift);
 
     patchBeamPalettesStatus.classList.add('list-group-item-success');
-    patchBeamPalettesStatus.childNodes[0].replaceWith('Patching beam palettes...success!');
+    patchBeamPalettesStatus.childNodes[0].replaceWith(patchBeamPalettesStatus.childNodes[0].textContent + 'success!');
 }
 
 function PatchEnemyPalettes() {
     patchEnemyPalettesStatus.classList.remove('d-none');
     patchEnemyPalettesStatus.childNodes[0].replaceWith('Patching enemy palettes...');
 
-
+    let hueShift = 20 + Math.floor(Math.random() * 320);
+    patchEnemyPalettesStatus.childNodes[0].replaceWith(patchEnemyPalettesStatus.childNodes[0].textContent + `shifting hues by ${hueShift}...`);
+    HueShiftPalettes(normalEnemyPaletteOffsets.concat(animalPaletteOffsets)
+    .concat(sideHopperPaletteOffsets).concat(desgeegaPaletteOffsets)
+    .concat(lavaEnemyPaletteOffsets).concat(metroidPaletteOffsets)
+    .concat(crateriaSpecialEnemyPaletteOffsets).concat(wreckedShipSpecialEnemyPaletteOffsets)
+    .concat(tourianSpecialEnemyPaletteOffsets), 0x10, hueShift);
 
     patchEnemyPalettesStatus.classList.add('list-group-item-success');
-    patchEnemyPalettesStatus.childNodes[0].replaceWith('Patching enemy palettes...success!');
+    patchEnemyPalettesStatus.childNodes[0].replaceWith(patchEnemyPalettesStatus.childNodes[0].textContent + 'success!');
 }
 
 function PatchBossPalettes() {
     patchBossPalettesStatus.classList.remove('d-none');
     patchBossPalettesStatus.childNodes[0].replaceWith('Patching boss palettes...');
 
-
+    let hueShift = 20 + Math.floor(Math.random() * 320);
+    patchBossPalettesStatus.childNodes[0].replaceWith(patchBossPalettesStatus.childNodes[0].textContent + `shifting hues by ${hueShift}...`);
+    HueShiftPalettes(sporeSpawnPaletteOffsets, 0x3F, hueShift);
 
     patchBossPalettesStatus.classList.add('list-group-item-success');
-    patchBossPalettesStatus.childNodes[0].replaceWith('Patching boss palettes...success!');
+    patchBossPalettesStatus.childNodes[0].replaceWith(patchBossPalettesStatus.childNodes[0].textContent + 'success!');
 }
 
 function RunCustomisations() {

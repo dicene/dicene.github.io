@@ -791,22 +791,22 @@ async function Initialize() {
     samusPowerSuitElevatorSpriteMap = GenerateSpriteMap(samusSpriteSheet, originalPowerSuitPalette, 405, 143, 32, 56);
     samusVariaSuitElevatorSpriteMap = GenerateSpriteMap(samusSpriteSheet, originalPowerSuitPalette, 439, 143, 32, 56);
 
-    let powerSuitPaletteListItem = GenerateNewListItem('Power Suit Palette', validateRomStatusList);
-    let powerSuitPaletteDisplay = GeneratePaletteDisplay(originalPowerSuitPalette, 16, powerSuitPaletteListItem);
+    // let powerSuitPaletteListItem = GenerateNewListItem('Power Suit Palette', validateRomStatusList);
+    // let powerSuitPaletteDisplay = GeneratePaletteDisplay(originalPowerSuitPalette, 16, powerSuitPaletteListItem);
 
-    let variaSuitPaletteListItem = GenerateNewListItem('Varia Suit Palette', validateRomStatusList);
-    let variaSuitPaletteDisplay = GeneratePaletteDisplay(originalVariaSuitPalette, 16, variaSuitPaletteListItem);
+    // let variaSuitPaletteListItem = GenerateNewListItem('Varia Suit Palette', validateRomStatusList);
+    // let variaSuitPaletteDisplay = GeneratePaletteDisplay(originalVariaSuitPalette, 16, variaSuitPaletteListItem);
 
-    let gravitySuitPaletteListItem = GenerateNewListItem('Gravity Suit Palette', validateRomStatusList);
-    let gravitySuitPaletteDisplay = GeneratePaletteDisplay(originalGravitySuitPalette, 16, gravitySuitPaletteListItem);
+    // let gravitySuitPaletteListItem = GenerateNewListItem('Gravity Suit Palette', validateRomStatusList);
+    // let gravitySuitPaletteDisplay = GeneratePaletteDisplay(originalGravitySuitPalette, 16, gravitySuitPaletteListItem);
 
-    let pixelSize = 2;
+    // let pixelSize = 2;
 
-    let suitDisplaysListItem = GenerateNewListItem('Suits', validateRomStatusList);
+    // let suitDisplaysListItem = GenerateNewListItem('Suits', validateRomStatusList);
 
-    let spriteDisplay = GenerateSpriteDisplay(samusPowerSuitElevatorSpriteMap, originalPowerSuitPalette, pixelSize, suitDisplaysListItem);
-    spriteDisplay = GenerateSpriteDisplay(samusVariaSuitElevatorSpriteMap, originalVariaSuitPalette, pixelSize, suitDisplaysListItem);
-    spriteDisplay = GenerateSpriteDisplay(samusVariaSuitElevatorSpriteMap, originalGravitySuitPalette, pixelSize, suitDisplaysListItem);
+    // let spriteDisplay = GenerateSpriteDisplay(samusPowerSuitElevatorSpriteMap, originalPowerSuitPalette, pixelSize, suitDisplaysListItem);
+    // spriteDisplay = GenerateSpriteDisplay(samusVariaSuitElevatorSpriteMap, originalVariaSuitPalette, pixelSize, suitDisplaysListItem);
+    // spriteDisplay = GenerateSpriteDisplay(samusVariaSuitElevatorSpriteMap, originalGravitySuitPalette, pixelSize, suitDisplaysListItem);
 
     createCustomizationToggle("patchControls", "Patch Controls<sup>1</sup>", PatchControls, customizationOptionsDisplayList);
     createCustomizationToggle("patchMoonwalk", "Moonwalk Defaults To On", PatchMoonwalk, customizationOptionsDisplayList);

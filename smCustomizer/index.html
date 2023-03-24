@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Super Metroid Customizer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <style>
+        #mainContainer {
+            padding-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <script src="./sm map rando 11 - 95FqtcuX0Th1xfEQ-CL8Zw.js"></script> -->
+    <script src="/external/jquery-3.6.3.min.js"></script>
+    <script src="/external/colorsys.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+        crossorigin="anonymous"></script>
+    <script>
+        $(function () {
+            $("#navBar").load("/navBar.html");
+        });
+    </script>
+    <div id="navBar"></div>
+    <div id="mainContainer" class="container">
+        <div class="card">
+            <div class="card-header">Customization</div>
+            <div class="card-body">
+                <form id="customization-form" class="container" onsubmit="return false;">
+                    <div class="form-group row my-3">
+                        <label class="col-sm-3" for="rom">Base ROM</label>
+                        <input class="col-sm-4 form-control-file" type="file" id="baseRomFilePicker"
+                            title="baseRomFilePicker">
+                    </div>
+                    <ul class="list-group my-3 d-none" id="validateRomStatusList">
+                        <li class="list-group-item" id="validateRomStatus">Validating rom...</li>
+                    </ul>
+                    <!-- let listItem = document.createElement('li');
+    listItem.classList.add('list-group-item')
+
+    let label = document.createElement('label');
+    label.textContent = text;
+    label.classList.add('col-sm-3');
+
+    listItem.appendChild(label);
+    parent.appendChild(listItem); -->
+                    <ul class="list-group my-3" id="customizationOptionsList">
+                        <!-- <li class="list-group-item">
+                            <label class="col-sm-3 col-form-label" for="preset">Patch Controls<sup>1</sup></label><div class="col-sm-3 btn-group" role="group">
+                                <input type="radio" class="btn-check my-2" name="patchControls"
+                                    id="patchControlsDisabled" value="Disabled" autocomplete="off" checked="">
+                                <label class="btn btn-outline-primary" for="patchControlsDisabled">Disabled</label>
+
+                                <input type="radio" class="btn-check my-2" name="patchControls"
+                                    id="patchControlsEnabled" value="Enabled" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="patchControlsEnabled">Enabled</label>
+                            </div>
+                        </li> -->
+                        <!-- <li class="list-group-item form-group row mx-0 my-1" id="oldCustomizationOptionsList">
+                            <div class="form-group row my-3">
+                                <label class="col-sm-3 col-form-label" for="preset">Moonwalk Defaults To On</label>
+                                <div class="col-sm-3 btn-group" role="group">
+                                    <input type="radio" class="btn-check my-2" name="patchMoonwalk"
+                                        id="patchMoonwalkDisabled" value="Disabled" autocomplete="off" checked="">
+                                    <label class="btn btn-outline-primary" for="patchMoonwalkDisabled">Disabled</label>
+
+                                    <input type="radio" class="btn-check my-2" name="patchMoonwalk"
+                                        id="patchMoonwalkEnabled" value="Enabled" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="patchMoonwalkEnabled">Enabled</label>
+                                </div>
+                            </div>
+                            <div class="form-group row my-3 d-none">
+                                <label class="col-sm-3 col-form-label" for="preset">Patch Palettes</label>
+                                <div class="col-sm-3 btn-group" role="group">
+                                    <input type="radio" class="btn-check my-2" name="patchPalettes"
+                                        id="patchPalettesDisabled" value="Disabled" autocomplete="off" checked="">
+                                    <label class="btn btn-outline-primary" for="patchPalettesDisabled">Disabled</label>
+
+                                    <input type="radio" class="btn-check my-2" name="patchPalettes"
+                                        id="patchPalettesEnabled" value="Enabled" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="patchPalettesEnabled">Enabled</label>
+                                </div>
+                            </div>
+                            <div class="form-group row my-3">
+                                <label class="col-sm-3 col-form-label" for="preset">Randomize Samus
+                                    Palettes<sup>2</sup></label>
+                                <div class="col-sm-3 btn-group" role="group">
+                                    <input type="radio" class="btn-check my-2" name="patchSamusPalettes"
+                                        id="patchSamusPalettesDisabled" value="Disabled" autocomplete="off" checked="">
+                                    <label class="btn btn-outline-primary"
+                                        for="patchSamusPalettesDisabled">Disabled</label>
+
+                                    <input type="radio" class="btn-check my-2" name="patchSamusPalettes"
+                                        id="patchSamusPalettesEnabled" value="Enabled" autocomplete="off">
+                                    <label class="btn btn-outline-primary"
+                                        for="patchSamusPalettesEnabled">Enabled</label>
+                                </div>
+                            </div>
+                            <div class="form-group row my-3">
+                                <label class="col-sm-3 col-form-label" for="preset">Patch Beam Palettes<sup>3</sup>
+                                    </sup3>
+                                </label>
+                                <div class="col-sm-3 btn-group" role="group">
+                                    <input type="radio" class="btn-check my-2" name="patchBeamPalettes"
+                                        id="patchBeamPalettesDisabled" value="Disabled" autocomplete="off" checked="">
+                                    <label class="btn btn-outline-primary"
+                                        for="patchBeamPalettesDisabled">Disabled</label>
+
+                                    <input type="radio" class="btn-check my-2" name="patchBeamPalettes"
+                                        id="patchBeamPalettesEnabled" value="Enabled" autocomplete="off">
+                                    <label class="btn btn-outline-primary"
+                                        for="patchBeamPalettesEnabled">Enabled</label>
+                                </div>
+                            </div>
+                            <div class="form-group row my-3">
+                                <label class="col-sm-3 col-form-label" for="preset">Patch Enemy
+                                    Palettes<sup>4</sup></label>
+                                <div class="col-sm-3 btn-group" role="group">
+                                    <input type="radio" class="btn-check my-2" name="patchEnemyPalettes"
+                                        id="patchEnemyPalettesDisabled" value="Disabled" autocomplete="off" checked="">
+                                    <label class="btn btn-outline-primary"
+                                        for="patchEnemyPalettesDisabled">Disabled</label>
+
+                                    <input type="radio" class="btn-check my-2" name="patchEnemyPalettes"
+                                        id="patchEnemyPalettesEnabled" value="Enabled" autocomplete="off">
+                                    <label class="btn btn-outline-primary"
+                                        for="patchEnemyPalettesEnabled">Enabled</label>
+                                </div>
+                            </div>
+                            <div class="form-group row my-3">
+                                <label class="col-sm-3 col-form-label" for="preset">Patch Boss
+                                    Palettes<sup>5</sup></label>
+                                <div class="col-sm-3 btn-group" role="group">
+                                    <input type="radio" class="btn-check my-2" name="patchBossPalettes"
+                                        id="patchBossPalettesDisabled" value="Disabled" autocomplete="off" checked="">
+                                    <label class="btn btn-outline-primary"
+                                        for="patchBossPalettesDisabled">Disabled</label>
+
+                                    <input type="radio" class="btn-check my-2" name="patchBossPalettes"
+                                        id="patchBossPalettesEnabled" value="Enabled" autocomplete="off">
+                                    <label class="btn btn-outline-primary"
+                                        for="patchBossPalettesEnabled">Enabled</label>
+                                </div>
+                            </div>
+                        </li> -->
+                    </ul>
+
+                    <!-- <input type="submit" class="btn btn-primary my-1" value="Run with test rom" id="testRomButton" onclick="TestRom();"> -->
+                    <input type="submit" class="btn btn-primary my-1 disabled d-none" value="Run Customizations"
+                        id="runCustomizationsButton" onclick="ProcessRom();">
+                    <div class="row"></div>
+                    <ul class="list-group my-3 d-none" id="patchRomStatusList">
+                        <li class="list-group-item d-none" id="patchControlsStatus">Patching Controls...</li>
+                        <li class="list-group-item d-none" id="patchMoonwalkStatus">Patch Moonwalk...</li>
+                        <li class="list-group-item d-none" id="patchPalettesStatus">Patching Palettes...</li>
+                        <li class="list-group-item d-none" id="patchSamusPalettesStatus">Patching Samus...</li>
+                        <li class="list-group-item d-none" id="patchBeamPalettesStatus">Patching Beams...</li>
+                        <li class="list-group-item d-none" id="patchEnemyPalettesStatus">Patching Enemies...
+                        </li>
+                        <li class="list-group-item d-none" id="patchBossPalettesStatus">Patching Bosses...</li>
+                    </ul>
+                    <input type="submit" class="btn btn-primary my-1 d-none disabled " value="Download ROM"
+                        id="downloadRomButton">
+                </form>
+
+            </div>
+        </div>
+        <!-- <div class="alert alert-success">
+            <strong>Success!</strong> Bootstrap applied to alert.
+        </div> -->
+        <div id="footnotes">
+            <h5>This program is still very much a work in progress and no guarantees are made that the generated
+                palettes
+                look good. I'll update it as time and interest permits.</h4>
+                <p><sup>1</sup> For now, this just updates the default controls to one particular setup, but will
+                    eventually
+                    be updated to let you use whatever control scheme you want. Currently: (Y: Shoot, B: Jump, A: Dash,
+                    X:
+                    Weapon Select, Select: Weapon Cancel)</p>
+                <p><sup>2</sup> Respin is NOT considered in randomizer logic, and might trivialize otherwise difficult
+                    seeds by letting you bypass certain hard maneuvers. Additionally, if you're using this with a
+                    MapRandom seed, this patch WILL disable the button combo that allows you to unmark rooms as
+                    explored.</p>
+                <p><sup>3</sup> Modifies Samus and her Ship(to match her Power Suit color)</p>
+                <p><sup>4</sup> Modifies beams, missiles, supers, and (should) update Special Beam Combos(PB + charge +
+                    1
+                    other beam)</p>
+                <p><sup>5</sup> Modifies most enemies, lots of non-hostile things as well including gates, platforms,
+                    and
+                    some various other area-specific stuff (like security light statue heads in Crateria)</p>
+                <p><sup>6</sup> Currently only modifies Spore Spawn, and it doesn't apply to his palettes as he gets
+                    damaged
+                    and changes color.</p>
+        </div>
+    </div>
+    <script type="module" src="./main.js"></script>
+    <iframe id="downloadFrame" style="display:none;"></iframe>
+</body>
+
+</html>

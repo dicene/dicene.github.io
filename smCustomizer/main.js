@@ -266,6 +266,17 @@ async function PatchRespin() {
     patchRespinStatus.childNodes[0].replaceWith(patchRespinStatus.childNodes[0].textContent + 'success!');
 }
 
+async function PatchNoHealthWarning() {
+    let noHealthWarningStatus = GenerateNewListItem("Removing Low Health Warning...", patchRomStatusList);
+
+    let bytes = await LoadFileBytes("./ipsPatches/noHealthWarning.ips");
+    let noHealthWarningPatchList = IPSReader.ProcessIPS(bytes);
+    ApplyPatches(noHealthWarningPatchList);
+
+    noHealthWarningStatus.classList.add('list-group-item-success');
+    noHealthWarningStatus.childNodes[0].replaceWith(noHealthWarningStatus.childNodes[0].textContent + 'success!');
+}
+
 async function PatchMSU1() {
     let msuPatchStatus = GenerateNewListItem("Applying MSU-1 Patch...", patchRomStatusList);
 
@@ -429,15 +440,24 @@ function ValidateRom() {
     validateRomStatus.classList.remove('d-none');
     validateRomStatus.childNodes[0].replaceWith('Validating rom...');
 
+    let validationSuccessful = true;
+
     for (let i = 0; i < CONSTANTS.SM_ROM_BEGINNING_BYTES.length; i++) {
         if (romBytes[i] != CONSTANTS.SM_ROM_BEGINNING_BYTES[i]) {
             validateRomStatus.classList.add('list-group-item-danger');
-            return;
+            validateRomStatus.childNodes[0].replaceWith(`Validating rom...failed at byte 0x${DecToHex(i, 6)}. Continue at your own risk!`);
+            validationSuccessful = false;
+            break;
         }
     }
 
-    validateRomStatus.classList.add('list-group-item-success');
-    validateRomStatus.childNodes[0].replaceWith('Validating rom...success!');
+    if (validationSuccessful){
+        validateRomStatus.classList.add('list-group-item-success');
+        validateRomStatus.childNodes[0].replaceWith('Validating rom...success!');
+    } else {
+        validateRomStatus.classList.add('list-group-item-danger');
+        validateRomStatus.childNodes[0].replaceWith(`Validating rom...failed! Continue at your own risk!`);
+    }
 
     runCustomizationsButton.classList.remove('disabled', 'd-none');
 
@@ -812,6 +832,7 @@ async function Initialize() {
     createCustomizationToggle("patchMoonwalk", "Moonwalk Defaults To On", PatchMoonwalk, customizationOptionsDisplayList);
     createCustomizationToggle("patchEasySpaceJump", "Easier Space Jump Timing", PatchEasySpaceJump, customizationOptionsDisplayList);
     createCustomizationToggle("patchRespin", "Respin<sup>2</sup>", PatchRespin, customizationOptionsDisplayList);
+    createCustomizationToggle("patchNoHealthWarning", "Remove Low Health Warning", PatchNoHealthWarning, customizationOptionsDisplayList);
     createCustomizationToggle("patchMSU1", "MSU-1 Patch<sup>3</sup>", PatchMSU1, customizationOptionsDisplayList);
     createCustomizationToggle("randomizeSamusPalettes", "Patch Samus Palettes<sup>4</sup>", RandomizeSamusPalettes, customizationOptionsDisplayList);
     createCustomizationToggle("randomizeBeamPalettes", "Patch Beam Palettes<sup>5</sup>", RandomizeBeamPalettes, customizationOptionsDisplayList);

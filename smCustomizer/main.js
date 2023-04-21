@@ -452,7 +452,7 @@ function ValidateRom() {
 
     let pixelSize = 2;
 
-    let suitDisplaysListItem = GenerateNewListItem('Updated Suits', validateRomStatusList);
+    let suitDisplaysListItem = GenerateNewListItem('Base Suits', validateRomStatusList);
     let powerSuitSpriteDisplay = GenerateSpriteDisplay(samusPowerSuitElevatorSpriteMap, palette1, pixelSize, suitDisplaysListItem);
     let variaSuitSpriteDisplay = GenerateSpriteDisplay(samusVariaSuitElevatorSpriteMap, palette2, pixelSize, suitDisplaysListItem);
     let gravitySuitSpriteDisplay = GenerateSpriteDisplay(samusVariaSuitElevatorSpriteMap, palette3, pixelSize, suitDisplaysListItem);

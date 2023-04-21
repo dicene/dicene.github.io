@@ -11,6 +11,7 @@
         #mainContainer {
             padding-top: 30px;
         }
+        .ref-highlight { background-color: #DDEEFF }
     </style>
 </head>
 
@@ -183,24 +184,25 @@
             <h5>This program is still very much a work in progress and no guarantees are made that the generated
                 palettes
                 look good. I'll update it as time and interest permits.</h4>
-                <p><sup>1</sup> For now, this just updates the default controls to one particular setup, but will
-                    eventually
-                    be updated to let you use whatever control scheme you want. Currently: (Y: Shoot, B: Jump, A: Dash,
-                    X:
-                    Weapon Select, Select: Weapon Cancel)</p>
-                <p><sup>2</sup> Respin is NOT considered in randomizer logic, and might trivialize otherwise difficult
+                <p id="footNote1"><sup>1</sup> For now, this just updates the default controls to one particular setup, but will
+                        eventually
+                        be updated to let you use whatever control scheme you want. Currently: (Y: Shoot, B: Jump, A: Dash,
+                        X:
+                        Weapon Select, Select: Weapon Cancel)</p>
+                <p id="footNote2"><sup>2</sup> Respin is NOT considered in randomizer logic, and might trivialize otherwise difficult
                     seeds by letting you bypass certain hard maneuvers. Additionally, if you're using this with a
                     MapRandom seed, this patch WILL disable the button combo that allows you to unmark rooms as
                     explored.</p>
-                <p><sup>3</sup> Applies MSU-1 patch to enable replacement soundtracks. More details at: <a href='https://www.zeldix.net/t1444-super-metroid'>https://www.zeldix.net/t1444-super-metroid</a><br/><b>Note:</b> Remember that MSU mods require naming your file to match your msu/xml/pcm files (generally something like <i>supermetroid_msu1.smc</b>)</p>
-                <p><sup>4</sup> Modifies Samus and her Ship(to match her Power Suit color)</p>
-                <p><sup>5</sup> Modifies beams, missiles, supers, and (should) update Special Beam Combos(PB + charge +
+                <!-- <p id="footNote3"><sup>3</sup> Widescreen patch by <b>ocesse</b> at <a href='https://forum.metroidconstruction.com/index.php/topic,5168.msg71652.html#msg71652'>https://forum.metroidconstruction.com/index.php/topic,5168.msg71652.html#msg71652</a></p> -->
+                <p id="footNote3"><sup>3</sup> Applies MSU-1 patch to enable replacement soundtracks. More details at: <a href='https://www.zeldix.net/t1444-super-metroid'>https://www.zeldix.net/t1444-super-metroid</a><br/><b>Note:</b> Remember that MSU mods require naming your file to match your msu/xml/pcm files (generally something like <i>supermetroid_msu1.smc</i>)</p>
+                <p id="footNote4"><sup>4</sup> Modifies Samus and her Ship(to match her Power Suit color)</p>
+                <p id="footNote5"><sup>5</sup> Modifies beams, missiles, supers, and (should) update Special Beam Combos(PB + charge +
                     1
                     other beam)</p>
-                <p><sup>6</sup> Modifies most enemies, lots of non-hostile things as well including gates, platforms,
+                <p id="footNote6"><sup>6</sup> Modifies most enemies, lots of non-hostile things as well including gates, platforms,
                     and
                     some various other area-specific stuff (like security light statue heads in Crateria)</p>
-                <p><sup>7</sup> Currently only modifies Spore Spawn, and it doesn't apply to his palettes as he gets
+                <p id="footNote7"><sup>7</sup> Currently only modifies Spore Spawn, and it doesn't apply to his palettes as he gets
                     damaged
                     and changes color.</p>
         </div>

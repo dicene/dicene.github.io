@@ -288,6 +288,17 @@ async function PatchMSU1() {
     msuPatchStatus.childNodes[0].replaceWith(msuPatchStatus.childNodes[0].textContent + 'success!');
 }
 
+async function PatchWidescreen() {
+    let widescreenPatchStatus = GenerateNewListItem("Applying Widescreen Patch...", patchRomStatusList);
+
+    let bytes = await LoadFileBytes("./ipsPatches/WPv0.3.07 For Map Rando Version 18 Onwards (Normal Map).ips");
+    let widescreenPatchList = IPSReader.ProcessIPS(bytes);
+    ApplyPatches(widescreenPatchList);
+
+    widescreenPatchStatus.classList.add('list-group-item-success');
+    widescreenPatchStatus.childNodes[0].replaceWith(widescreenPatchStatus.childNodes[0].textContent + 'success!');
+}
+
 function RandomizeSamusPalettes() {
     let patchSamusPalettesStatus = GenerateNewListItem("Randomizing Samus palettes...", patchRomStatusList);
 
@@ -298,11 +309,11 @@ function RandomizeSamusPalettes() {
     newPowerSuitPalette[0] = { r: 0, g: 0, b: 0 };
     HueShiftPalettes(CONSTANTS.shipPaletteOffsets, 0x10, hueShift);
 
-    hueShift = 20 + Math.floor(Math.random() * 320);
+    // hueShift = 20 + Math.floor(Math.random() * 320);
     newVariaSuitPalette = HueShiftPalettes(CONSTANTS.variaSuitPaletteOffsets, 0x10, hueShift);
     newVariaSuitPalette[0] = { r: 0, g: 0, b: 0 };
 
-    hueShift = 20 + Math.floor(Math.random() * 320);
+    // hueShift = 20 + Math.floor(Math.random() * 320);
     newGravitySuitPalette = HueShiftPalettes(CONSTANTS.gravitySuitPaletteOffsets, 0x10, hueShift);
     newGravitySuitPalette[0] = { r: 0, g: 0, b: 0 };
 
@@ -435,6 +446,10 @@ function ReadU16LE(address) {
 }
 
 function ValidateRom() {
+    while (validateRomStatusList.lastChild != validateRomStatus) {
+        validateRomStatusList.removeChild(validateRomStatusList.lastChild);
+    }
+
     validateRomStatusList.classList.remove('d-none');
 
     validateRomStatus.classList.remove('d-none');
@@ -462,6 +477,27 @@ function ValidateRom() {
     runCustomizationsButton.classList.remove('disabled', 'd-none');
 
     let palette1 = GetPalette(CONSTANTS.powerSuitPaletteOffsets[0], 0x10);
+    palette1[0] = { r: 0, g: 0, b: 0 };
+    let palette2 = GetPalette(CONSTANTS.variaSuitPaletteOffsets[0], 0x10);
+    palette2[0] = { r: 0, g: 0, b: 0 };
+    let palette3 = GetPalette(CONSTANTS.gravitySuitPaletteOffsets[0], 0x10);
+    palette3[0] = { r: 0, g: 0, b: 0 };
+
+    let powerSuitPaletteListItem = GenerateNewListItem('Power Suit Palette', validateRomStatusList);
+    let powerSuitPaletteDisplay = GeneratePaletteDisplay(palette1, 16, powerSuitPaletteListItem);
+
+    let variaSuitPaletteListItem = GenerateNewListItem('Varia Suit Palette', validateRomStatusList);
+    let variaSuitPaletteDisplay = GeneratePaletteDisplay(palette2, 16, variaSuitPaletteListItem);
+
+    let gravitySuitPaletteListItem = GenerateNewListItem('Gravity Suit Palette', validateRomStatusList);
+    let gravitySuitPaletteDisplay = GeneratePaletteDisplay(palette3, 16, gravitySuitPaletteListItem);
+
+    let pixelSize = 2;
+
+    let suitDisplaysListItem = GenerateNewListItem('Updated Suits', validateRomStatusList);
+    let powerSuitSpriteDisplay = GenerateSpriteDisplay(samusPowerSuitElevatorSpriteMap, palette1, pixelSize, suitDisplaysListItem);
+    let variaSuitSpriteDisplay = GenerateSpriteDisplay(samusVariaSuitElevatorSpriteMap, palette2, pixelSize, suitDisplaysListItem);
+    let gravitySuitSpriteDisplay = GenerateSpriteDisplay(samusVariaSuitElevatorSpriteMap, palette3, pixelSize, suitDisplaysListItem);
     // console.log(palette1);
 }
 
@@ -525,15 +561,46 @@ function SaveRom() {
     saveByteArray(romBytes, newName);
 }
 
-function GetPalette(location, size) {
-    let colors = [];
-    for (let i = 0; i < size; i++) {
-        let paletteColor = ReadU16LE(location + i);
-        let rgb = PaletteToRGB(paletteColor);
-        colors.push(rgb);
+function GetPalette(paletteOffset, paletteLength) {
+    // let colors = [];
+    // for (let i = 0; i < size; i++) {
+    //     let paletteColor = ReadU16LE(location + i);
+    //     let rgb = PaletteToRGB(paletteColor);
+    //     colors.push(rgb);
+    // }
+
+    // return colors;
+
+    let palette = [];
+
+    for (let i = 0; i < paletteLength; i++) {
+        let location = paletteOffset + (i * 2);
+        let paletteColor = ReadU16LE(location);
+
+        let paletteRGB = PaletteToRGB(paletteColor);
+        palette.push(paletteRGB);
+        // let hsv = colorsys.rgb2Hsv(paletteRGB.r, paletteRGB.g, paletteRGB.b);
+        // let newHsv = { h: (hsv.h + hueShift) % 360, s: hsv.s, v: hsv.v };
+        // let newRGB = colorsys.hsv2Rgb(newHsv.h, newHsv.s, newHsv.v);
+        // newRGB.r = Math.floor(newRGB.r);
+        // newRGB.g = Math.floor(newRGB.g);
+        // newRGB.b = Math.floor(newRGB.b);
+        // newPalette.push(newRGB);
+        // let newPaletteColor = RGBToPalette(newRGB.r, newRGB.g, newRGB.b);
+        // let highByte = newPaletteColor >> 8;
+        // let lowByte = newPaletteColor - (highByte << 8);
+        // var newPaletteBytes = [lowByte, highByte];
+
+        // DebugMessage(`0x${decToHex(location, 4)}` + 
+        // `   0x${decToHex(romBytes[location+1], 2)}${decToHex(romBytes[location], 2)} => ` + 
+        // `${paletteColor}(0x${decToHex(paletteColor)}) rgb(${paletteRGB.r},${paletteRGB.g},${paletteRGB.b}) hsv(${hsv.h},${hsv.s},${hsv.v}) ` + 
+        // `shifted by ${hueShift} => ` + 
+        // `${newPaletteColor}(0x${decToHex(newPaletteColor, 4)}) bytes(0x${decToHex(lowByte, 2)}${decToHex(highByte, 2)}) rgb(${newRGB.r},${newRGB.g},${newRGB.b}) hsv(${newHsv.h},${newHsv.s},${newHsv.v})`);
+
+        // WriteBytes(location, newPaletteBytes);
     }
 
-    return colors;
+    return palette;
 }
 
 function WriteBytes(address, newBytes) {
@@ -797,49 +864,6 @@ function GenerateSpriteMap(spriteSheet, palette, x, y, width, height) {
     return spriteMap;
 }
 
-async function Initialize() {
-    samusSpriteSheet = await SpriteSheet.Get('samusSpriteSheet.png');
-
-    originalPowerSuitPalette = [{ r: 0, g: 0, b: 0 }];
-    originalVariaSuitPalette = [{ r: 0, g: 0, b: 0 }];
-    originalGravitySuitPalette = [{ r: 0, g: 0, b: 0 }];
-
-    originalPowerSuitPalette.push(...GetImageFromSpriteSheet(samusSpriteSheet, 378, 1, 15, 1, 8, 8).flat());
-    originalVariaSuitPalette.push(...GetImageFromSpriteSheet(samusSpriteSheet, 378, 1 + 8, 15, 1, 8, 8).flat());
-    originalGravitySuitPalette.push(...GetImageFromSpriteSheet(samusSpriteSheet, 378, 1 + 8 + 8, 15, 1, 8, 8).flat());
-
-    samusPowerSuitElevatorSpriteMap = GenerateSpriteMap(samusSpriteSheet, originalPowerSuitPalette, 405, 143, 32, 56);
-    samusVariaSuitElevatorSpriteMap = GenerateSpriteMap(samusSpriteSheet, originalPowerSuitPalette, 439, 143, 32, 56);
-
-    // let powerSuitPaletteListItem = GenerateNewListItem('Power Suit Palette', validateRomStatusList);
-    // let powerSuitPaletteDisplay = GeneratePaletteDisplay(originalPowerSuitPalette, 16, powerSuitPaletteListItem);
-
-    // let variaSuitPaletteListItem = GenerateNewListItem('Varia Suit Palette', validateRomStatusList);
-    // let variaSuitPaletteDisplay = GeneratePaletteDisplay(originalVariaSuitPalette, 16, variaSuitPaletteListItem);
-
-    // let gravitySuitPaletteListItem = GenerateNewListItem('Gravity Suit Palette', validateRomStatusList);
-    // let gravitySuitPaletteDisplay = GeneratePaletteDisplay(originalGravitySuitPalette, 16, gravitySuitPaletteListItem);
-
-    // let pixelSize = 2;
-
-    // let suitDisplaysListItem = GenerateNewListItem('Suits', validateRomStatusList);
-
-    // let spriteDisplay = GenerateSpriteDisplay(samusPowerSuitElevatorSpriteMap, originalPowerSuitPalette, pixelSize, suitDisplaysListItem);
-    // spriteDisplay = GenerateSpriteDisplay(samusVariaSuitElevatorSpriteMap, originalVariaSuitPalette, pixelSize, suitDisplaysListItem);
-    // spriteDisplay = GenerateSpriteDisplay(samusVariaSuitElevatorSpriteMap, originalGravitySuitPalette, pixelSize, suitDisplaysListItem);
-
-    createCustomizationToggle("patchControls", "Patch Controls<sup>1</sup>", PatchControls, customizationOptionsDisplayList);
-    createCustomizationToggle("patchMoonwalk", "Moonwalk Defaults To On", PatchMoonwalk, customizationOptionsDisplayList);
-    createCustomizationToggle("patchEasySpaceJump", "Easier Space Jump Timing", PatchEasySpaceJump, customizationOptionsDisplayList);
-    createCustomizationToggle("patchRespin", "Respin<sup>2</sup>", PatchRespin, customizationOptionsDisplayList);
-    createCustomizationToggle("patchNoHealthWarning", "Remove Low Health Warning", PatchNoHealthWarning, customizationOptionsDisplayList);
-    createCustomizationToggle("patchMSU1", "MSU-1 Patch<sup>3</sup>", PatchMSU1, customizationOptionsDisplayList);
-    createCustomizationToggle("randomizeSamusPalettes", "Patch Samus Palettes<sup>4</sup>", RandomizeSamusPalettes, customizationOptionsDisplayList);
-    createCustomizationToggle("randomizeBeamPalettes", "Patch Beam Palettes<sup>5</sup>", RandomizeBeamPalettes, customizationOptionsDisplayList);
-    createCustomizationToggle("randomizeEnemyPalettes", "Patch Enemy Palettes<sup>6</sup>", RandomizeEnemyPalettes, customizationOptionsDisplayList);
-    createCustomizationToggle("randomizeBossPalettes", "Patch Boss Palettes<sup>7</sup>", RandomizeBossPalettes, customizationOptionsDisplayList);
-}
-
 function LoadFileBytes(fileName) {
     return new Promise((resolve, reject) => {
         var oReq = new XMLHttpRequest();
@@ -974,5 +998,57 @@ function GenerateSpriteDisplay(spriteMap, palette, pixelSize, parent) {
 
 LoadPreviousSettings();
 SetupListeners();
+
+async function Initialize() {
+    samusSpriteSheet = await SpriteSheet.Get('samusSpriteSheet.png');
+
+    originalPowerSuitPalette = [{ r: 0, g: 0, b: 0 }];
+    originalVariaSuitPalette = [{ r: 0, g: 0, b: 0 }];
+    originalGravitySuitPalette = [{ r: 0, g: 0, b: 0 }];
+
+    originalPowerSuitPalette.push(...GetImageFromSpriteSheet(samusSpriteSheet, 378, 1, 15, 1, 8, 8).flat());
+    originalVariaSuitPalette.push(...GetImageFromSpriteSheet(samusSpriteSheet, 378, 1 + 8, 15, 1, 8, 8).flat());
+    originalGravitySuitPalette.push(...GetImageFromSpriteSheet(samusSpriteSheet, 378, 1 + 8 + 8, 15, 1, 8, 8).flat());
+
+    samusPowerSuitElevatorSpriteMap = GenerateSpriteMap(samusSpriteSheet, originalPowerSuitPalette, 405, 143, 32, 56);
+    samusVariaSuitElevatorSpriteMap = GenerateSpriteMap(samusSpriteSheet, originalPowerSuitPalette, 439, 143, 32, 56);
+
+    let powerSuitPaletteListItem = GenerateNewListItem('Power Suit Palette', validateRomStatusList);
+    let powerSuitPaletteDisplay = GeneratePaletteDisplay(originalPowerSuitPalette, 16, powerSuitPaletteListItem);
+
+    let variaSuitPaletteListItem = GenerateNewListItem('Varia Suit Palette', validateRomStatusList);
+    let variaSuitPaletteDisplay = GeneratePaletteDisplay(originalVariaSuitPalette, 16, variaSuitPaletteListItem);
+
+    let gravitySuitPaletteListItem = GenerateNewListItem('Gravity Suit Palette', validateRomStatusList);
+    let gravitySuitPaletteDisplay = GeneratePaletteDisplay(originalGravitySuitPalette, 16, gravitySuitPaletteListItem);
+
+    let pixelSize = 2;
+
+    let suitDisplaysListItem = GenerateNewListItem('Suits', validateRomStatusList);
+
+    let spriteDisplay = GenerateSpriteDisplay(samusPowerSuitElevatorSpriteMap, originalPowerSuitPalette, pixelSize, suitDisplaysListItem);
+    spriteDisplay = GenerateSpriteDisplay(samusVariaSuitElevatorSpriteMap, originalVariaSuitPalette, pixelSize, suitDisplaysListItem);
+    spriteDisplay = GenerateSpriteDisplay(samusVariaSuitElevatorSpriteMap, originalGravitySuitPalette, pixelSize, suitDisplaysListItem);
+
+    createCustomizationToggle("patchControls", "Patch Controls<sup><a class='footnote' href='#footNote1'>1</a></sup>", PatchControls, customizationOptionsDisplayList);
+    createCustomizationToggle("patchMoonwalk", "Moonwalk Defaults To On", PatchMoonwalk, customizationOptionsDisplayList);
+    createCustomizationToggle("patchEasySpaceJump", "Easier Space Jump Timing", PatchEasySpaceJump, customizationOptionsDisplayList);
+    createCustomizationToggle("patchRespin", "Respin<sup><a class='footnote' href='#footNote2'>2</a></sup>", PatchRespin, customizationOptionsDisplayList);
+    createCustomizationToggle("patchNoHealthWarning", "Remove Low Health Warning", PatchNoHealthWarning, customizationOptionsDisplayList);
+    // createCustomizationToggle("patchWidescreen", "Widescreen<sup><a class='footnote' href='#footNote4'>4</a></sup>", PatchWidescreen, customizationOptionsDisplayList);
+    createCustomizationToggle("patchMSU1", "MSU-1 Patch<sup><a class='footnote' href='#footNote3'>3</a></sup>", PatchMSU1, customizationOptionsDisplayList);
+    createCustomizationToggle("randomizeSamusPalettes", "Patch Samus Palettes<sup><a class='footnote' href='#footNote4'>4</a></sup>", RandomizeSamusPalettes, customizationOptionsDisplayList);
+    createCustomizationToggle("randomizeBeamPalettes", "Patch Beam Palettes<sup><a class='footnote' href='#footNote5'>5</a></sup>", RandomizeBeamPalettes, customizationOptionsDisplayList);
+    createCustomizationToggle("randomizeEnemyPalettes", "Patch Enemy Palettes<sup><a class='footnote' href='#footNote6'>6</a></sup>", RandomizeEnemyPalettes, customizationOptionsDisplayList);
+    createCustomizationToggle("randomizeBossPalettes", "Patch Boss Palettes<sup><a class='footnote' href='#footNote7'>7</a></sup>", RandomizeBossPalettes, customizationOptionsDisplayList);
+
+    $("a.footnote").click(function() {
+        var href = $(this).attr("href");
+        var $el = $(href);
+    
+        $(".ref-highlight").removeClass("ref-highlight");
+        $el.addClass("ref-highlight");
+    });
+}
 
 Initialize();

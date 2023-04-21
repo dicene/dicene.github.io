@@ -38,22 +38,6 @@ var customizationOptionsDisplayList = document.getElementById('customizationOpti
 var customizationOptions = [];
 var customizationOptionValues = {};
 
-// var oldCustomizationOptionsList = document.getElementById('oldCustomizationOptionsList');
-// oldCustomizationOptionsList.classList.add('d-none');
-
-// var patchControlsEnabledButton = document.getElementById('patchControlsEnabled');
-// var patchControlsDisabledButton = document.getElementById('patchControlsDisabled');
-// var patchMoonwalkEnabledButton = document.getElementById('patchMoonwalkEnabled');
-// var patchMoonwalkDisabledButton = document.getElementById('patchMoonwalkDisabled');
-// var patchSamusPalettesEnabledButton = document.getElementById('patchSamusPalettesEnabled');
-// var patchSamusPalettesDisabledButton = document.getElementById('patchSamusPalettesDisabled');
-// var patchBeamPalettesEnabledButton = document.getElementById('patchBeamPalettesEnabled');
-// var patchBeamPalettesDisabledButton = document.getElementById('patchBeamPalettesDisabled');
-// var patchEnemyPalettesEnabledButton = document.getElementById('patchEnemyPalettesEnabled');
-// var patchEnemyPalettesDisabledButton = document.getElementById('patchEnemyPalettesDisabled');
-// var patchBossPalettesEnabledButton = document.getElementById('patchBossPalettesEnabled');
-// var patchBossPalettesDisabledButton = document.getElementById('patchBossPalettesDisabled');
-
 const runCustomizationsButton = document.getElementById('runCustomizationsButton');
 const downloadRomButton = document.getElementById('downloadRomButton');
 
@@ -63,13 +47,6 @@ const validateRomStatus = document.getElementById('validateRomStatus');
 const paletteDisplayCanvas = document.getElementById("paletteDisplayCanvas");
 
 const patchRomStatusList = document.getElementById('patchRomStatusList');
-// const patchControlsStatus = document.getElementById('patchControlsStatus');
-// const patchMoonwalkStatus = document.getElementById('patchMoonwalkStatus');
-// const patchPalettesStatus = document.getElementById('patchPalettesStatus');
-// const patchSamusPalettesStatus = document.getElementById('patchSamusPalettesStatus');
-// const patchBeamPalettesStatus = document.getElementById('patchBeamPalettesStatus');
-// const patchEnemyPalettesStatus = document.getElementById('patchEnemyPalettesStatus');
-// const patchBossPalettesStatus = document.getElementById('patchBossPalettesStatus');
 
 var romBytes;
 var romFileName;
@@ -167,24 +144,6 @@ function createCustomizationToggle(name, label, customizeAction, parent) {
         UpdateStoredCustomizationSettings();
     };
 
-    // newOptionDisplayListItem.appendChild(newOptionDisplay);
-
-    // return listItem;
-
-    //
-    // customizationOptionsDisplayList
-    // <li class="list-group-item">
-    //     <label class="col-sm-3 col-form-label" for="preset">Patch Controls<sup>1</sup></label>
-    //     <div class="col-sm-3 btn-group" role="group">
-    //         <input type="radio" class="btn-check my-2" name="patchControls"
-    //             id="patchControlsDisabled" value="Disabled" autocomplete="off" checked="">
-    //         <label class="btn btn-outline-primary" for="patchControlsDisabled">Disabled</label>
-
-    //         <input type="radio" class="btn-check my-2" name="patchControls"
-    //             id="patchControlsEnabled" value="Enabled" autocomplete="off">
-    //         <label class="btn btn-outline-primary" for="patchControlsEnabled">Enabled</label>
-    //     </div>
-    // </li>
     customizationOptions.push(newOption);
 }
 
@@ -246,7 +205,6 @@ function PatchMoonwalk() {
 }
 
 function PatchEasySpaceJump() {
-    // <li class="list-group-item d-none" id="patchControlsStatus">Patching Controls...</li>
     let patchEasySpaceJumpStatus = GenerateNewListItem("Applying Easy Space Jump Patch...", patchRomStatusList);
 
     ApplyPatches(CONSTANTS.easySpaceJumpPatch);
@@ -518,21 +476,6 @@ function RunCustomizations() {
         }
     }
 
-    // if (patchControlsEnabledButton.checked)
-    //     PatchControls();
-    // // if (patchMoonwalkEnabledButton.checked)
-    // //     PatchMoonwalk();
-    // if (patchSamusPalettesEnabledButton.checked) {
-    //     RandomizeSamusPalettes();        
-    // }
-
-    // if (patchBeamPalettesEnabledButton.checked)
-    //     RandomizeBeamPalettes();
-    // if (patchEnemyPalettesEnabledButton.checked)
-    //     RandomizeEnemyPalettes();
-    // if (patchBossPalettesEnabledButton.checked)
-    //     RandomizeBossPalettes();
-
     SaveRom();
 }
 
@@ -562,15 +505,6 @@ function SaveRom() {
 }
 
 function GetPalette(paletteOffset, paletteLength) {
-    // let colors = [];
-    // for (let i = 0; i < size; i++) {
-    //     let paletteColor = ReadU16LE(location + i);
-    //     let rgb = PaletteToRGB(paletteColor);
-    //     colors.push(rgb);
-    // }
-
-    // return colors;
-
     let palette = [];
 
     for (let i = 0; i < paletteLength; i++) {
@@ -642,48 +576,6 @@ function LoadPreviousSettings() {
 
         if (storedCustomizationOptionValues)
             customizationOptionValues = JSON.parse(storedCustomizationOptionValues);
-
-        // let patchControlsEnabledSetting = window.localStorage.getItem("patchControlsEnabled");
-        // if (patchControlsEnabledSetting && patchControlsEnabledSetting == 'true') {
-        //     patchControlsEnabledButton.checked = true;
-        // } else {
-        //     patchControlsDisabledButton.checked = true;
-        // }
-
-        // let patchMoonwalkEnabledSetting = window.localStorage.getItem("patchMoonwalkEnabled");
-        // if (patchMoonwalkEnabledSetting && patchMoonwalkEnabledSetting == 'true') {
-        //     patchMoonwalkEnabledButton.checked = true;
-        // } else {
-        //     patchMoonwalkDisabledButton.checked = true;
-        // }
-
-        // let patchSamusPalettesEnabledSetting = window.localStorage.getItem("patchSamusPalettesEnabled");
-        // if (patchSamusPalettesEnabledSetting && patchSamusPalettesEnabledSetting == 'true') {
-        //     patchSamusPalettesEnabledButton.checked = true;
-        // } else {
-        //     patchSamusPalettesDisabledButton.checked = true;
-        // }
-
-        // let patchBeamPalettesEnabledSetting = window.localStorage.getItem("patchBeamPalettesEnabled");
-        // if (patchBeamPalettesEnabledSetting && patchBeamPalettesEnabledSetting == 'true') {
-        //     patchBeamPalettesEnabledButton.checked = true;
-        // } else {
-        //     patchBeamPalettesDisabledButton.checked = true;
-        // }
-
-        // let patchEnemyPalettesEnabledSetting = window.localStorage.getItem("patchEnemyPalettesEnabled");
-        // if (patchEnemyPalettesEnabledSetting && patchEnemyPalettesEnabledSetting == 'true') {
-        //     patchEnemyPalettesEnabledButton.checked = true;
-        // } else {
-        //     patchEnemyPalettesDisabledButton.checked = true;
-        // }
-
-        // let patchBossPalettesEnabledSetting = window.localStorage.getItem("patchBossPalettesEnabled");
-        // if (patchBossPalettesEnabledSetting && patchBossPalettesEnabledSetting == 'true') {
-        //     patchBossPalettesEnabledButton.checked = true;
-        // } else {
-        //     patchBossPalettesDisabledButton.checked = true;
-        // }
     } else {
         DebugMessage("This browser doesn't seem to support HTML5 LocalStorage. User Preferences won't be saved between sessions.");
     }
@@ -692,42 +584,6 @@ function LoadPreviousSettings() {
 function SetupListeners() {
     baseRomFilePicker.onchange = OnFileSelected;
     runCustomizationsButton.onclick = RunCustomizations;
-    // patchControlsEnabledButton.onclick = () => {
-    //     window.localStorage.setItem("patchControlsEnabled", 'true');
-    // };
-    // patchControlsDisabledButton.onclick = () => {
-    //     window.localStorage.setItem("patchControlsEnabled", 'false');
-    // };
-    // patchMoonwalkEnabledButton.onclick = () => {
-    //     window.localStorage.setItem("patchMoonwalkEnabled", 'true');
-    // };
-    // patchMoonwalkDisabledButton.onclick = () => {
-    //     window.localStorage.setItem("patchMoonwalkEnabled", 'false');
-    // };
-    // patchSamusPalettesEnabledButton.onclick = () => {
-    //     window.localStorage.setItem("patchSamusPalettesEnabled", 'true');
-    // };
-    // patchSamusPalettesDisabledButton.onclick = () => {
-    //     window.localStorage.setItem("patchSamusPalettesEnabled", 'false');
-    // };
-    // patchBeamPalettesEnabledButton.onclick = () => {
-    //     window.localStorage.setItem("patchBeamPalettesEnabled", 'true');
-    // };
-    // patchBeamPalettesDisabledButton.onclick = () => {
-    //     window.localStorage.setItem("patchBeamPalettesEnabled", 'false');
-    // };
-    // patchEnemyPalettesEnabledButton.onclick = () => {
-    //     window.localStorage.setItem("patchEnemyPalettesEnabled", 'true');
-    // };
-    // patchEnemyPalettesDisabledButton.onclick = () => {
-    //     window.localStorage.setItem("patchEnemyPalettesEnabled", 'false');
-    // };
-    // patchBossPalettesEnabledButton.onclick = () => {
-    //     window.localStorage.setItem("patchBossPalettesEnabled", 'true');
-    // };
-    // patchBossPalettesDisabledButton.onclick = () => {
-    //     window.localStorage.setItem("patchBossPalettesEnabled", 'false');
-    // };
 }
 
 function DebugMessage(text) {
@@ -915,17 +771,6 @@ function GenerateNewListItem(text, parent) {
 }
 
 function GenerateToggle(name, label, enableAction, disableAction) {
-    //     <label class="col-sm-3 col-form-label" for="preset">Patch Controls<sup>1</sup></label>
-    //     <div class="col-sm-3 btn-group" role="group">
-    //         <input type="radio" class="btn-check my-2" name="patchControls"
-    //             id="patchControlsDisabled" value="Disabled" autocomplete="off" checked="">
-    //         <label class="btn btn-outline-primary" for="patchControlsDisabled">Disabled</label>
-
-    //         <input type="radio" class="btn-check my-2" name="patchControls"
-    //             id="patchControlsEnabled" value="Enabled" autocomplete="off">
-    //         <label class="btn btn-outline-primary" for="patchControlsEnabled">Enabled</label>
-    //     </div>
-
     let newToggle = document.createElement('');
     newToggle.height = '10';
     newToggle.width = colorCount * 20;

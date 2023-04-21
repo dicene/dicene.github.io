@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-
+    
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,6 +12,7 @@
             padding-top: 30px;
         }
         .ref-highlight { background-color: #DDEEFF }
+        #downloadFrame { display: none }
     </style>
 </head>
 
@@ -47,114 +48,7 @@
                     <ul class="list-group my-3 d-none" id="validateRomStatusList">
                         <li class="list-group-item" id="validateRomStatus">Validating rom...</li>
                     </ul>
-                    <!-- let listItem = document.createElement('li');
-    listItem.classList.add('list-group-item')
-
-    let label = document.createElement('label');
-    label.textContent = text;
-    label.classList.add('col-sm-3');
-
-    listItem.appendChild(label);
-    parent.appendChild(listItem); -->
                     <ul class="list-group my-3" id="customizationOptionsList">
-                        <!-- <li class="list-group-item">
-                            <label class="col-sm-3 col-form-label" for="preset">Patch Controls<sup>1</sup></label><div class="col-sm-3 btn-group" role="group">
-                                <input type="radio" class="btn-check my-2" name="patchControls"
-                                    id="patchControlsDisabled" value="Disabled" autocomplete="off" checked="">
-                                <label class="btn btn-outline-primary" for="patchControlsDisabled">Disabled</label>
-
-                                <input type="radio" class="btn-check my-2" name="patchControls"
-                                    id="patchControlsEnabled" value="Enabled" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="patchControlsEnabled">Enabled</label>
-                            </div>
-                        </li> -->
-                        <!-- <li class="list-group-item form-group row mx-0 my-1" id="oldCustomizationOptionsList">
-                            <div class="form-group row my-3">
-                                <label class="col-sm-3 col-form-label" for="preset">Moonwalk Defaults To On</label>
-                                <div class="col-sm-3 btn-group" role="group">
-                                    <input type="radio" class="btn-check my-2" name="patchMoonwalk"
-                                        id="patchMoonwalkDisabled" value="Disabled" autocomplete="off" checked="">
-                                    <label class="btn btn-outline-primary" for="patchMoonwalkDisabled">Disabled</label>
-
-                                    <input type="radio" class="btn-check my-2" name="patchMoonwalk"
-                                        id="patchMoonwalkEnabled" value="Enabled" autocomplete="off">
-                                    <label class="btn btn-outline-primary" for="patchMoonwalkEnabled">Enabled</label>
-                                </div>
-                            </div>
-                            <div class="form-group row my-3 d-none">
-                                <label class="col-sm-3 col-form-label" for="preset">Patch Palettes</label>
-                                <div class="col-sm-3 btn-group" role="group">
-                                    <input type="radio" class="btn-check my-2" name="patchPalettes"
-                                        id="patchPalettesDisabled" value="Disabled" autocomplete="off" checked="">
-                                    <label class="btn btn-outline-primary" for="patchPalettesDisabled">Disabled</label>
-
-                                    <input type="radio" class="btn-check my-2" name="patchPalettes"
-                                        id="patchPalettesEnabled" value="Enabled" autocomplete="off">
-                                    <label class="btn btn-outline-primary" for="patchPalettesEnabled">Enabled</label>
-                                </div>
-                            </div>
-                            <div class="form-group row my-3">
-                                <label class="col-sm-3 col-form-label" for="preset">Randomize Samus
-                                    Palettes<sup>2</sup></label>
-                                <div class="col-sm-3 btn-group" role="group">
-                                    <input type="radio" class="btn-check my-2" name="patchSamusPalettes"
-                                        id="patchSamusPalettesDisabled" value="Disabled" autocomplete="off" checked="">
-                                    <label class="btn btn-outline-primary"
-                                        for="patchSamusPalettesDisabled">Disabled</label>
-
-                                    <input type="radio" class="btn-check my-2" name="patchSamusPalettes"
-                                        id="patchSamusPalettesEnabled" value="Enabled" autocomplete="off">
-                                    <label class="btn btn-outline-primary"
-                                        for="patchSamusPalettesEnabled">Enabled</label>
-                                </div>
-                            </div>
-                            <div class="form-group row my-3">
-                                <label class="col-sm-3 col-form-label" for="preset">Patch Beam Palettes<sup>3</sup>
-                                    </sup3>
-                                </label>
-                                <div class="col-sm-3 btn-group" role="group">
-                                    <input type="radio" class="btn-check my-2" name="patchBeamPalettes"
-                                        id="patchBeamPalettesDisabled" value="Disabled" autocomplete="off" checked="">
-                                    <label class="btn btn-outline-primary"
-                                        for="patchBeamPalettesDisabled">Disabled</label>
-
-                                    <input type="radio" class="btn-check my-2" name="patchBeamPalettes"
-                                        id="patchBeamPalettesEnabled" value="Enabled" autocomplete="off">
-                                    <label class="btn btn-outline-primary"
-                                        for="patchBeamPalettesEnabled">Enabled</label>
-                                </div>
-                            </div>
-                            <div class="form-group row my-3">
-                                <label class="col-sm-3 col-form-label" for="preset">Patch Enemy
-                                    Palettes<sup>4</sup></label>
-                                <div class="col-sm-3 btn-group" role="group">
-                                    <input type="radio" class="btn-check my-2" name="patchEnemyPalettes"
-                                        id="patchEnemyPalettesDisabled" value="Disabled" autocomplete="off" checked="">
-                                    <label class="btn btn-outline-primary"
-                                        for="patchEnemyPalettesDisabled">Disabled</label>
-
-                                    <input type="radio" class="btn-check my-2" name="patchEnemyPalettes"
-                                        id="patchEnemyPalettesEnabled" value="Enabled" autocomplete="off">
-                                    <label class="btn btn-outline-primary"
-                                        for="patchEnemyPalettesEnabled">Enabled</label>
-                                </div>
-                            </div>
-                            <div class="form-group row my-3">
-                                <label class="col-sm-3 col-form-label" for="preset">Patch Boss
-                                    Palettes<sup>5</sup></label>
-                                <div class="col-sm-3 btn-group" role="group">
-                                    <input type="radio" class="btn-check my-2" name="patchBossPalettes"
-                                        id="patchBossPalettesDisabled" value="Disabled" autocomplete="off" checked="">
-                                    <label class="btn btn-outline-primary"
-                                        for="patchBossPalettesDisabled">Disabled</label>
-
-                                    <input type="radio" class="btn-check my-2" name="patchBossPalettes"
-                                        id="patchBossPalettesEnabled" value="Enabled" autocomplete="off">
-                                    <label class="btn btn-outline-primary"
-                                        for="patchBossPalettesEnabled">Enabled</label>
-                                </div>
-                            </div>
-                        </li> -->
                     </ul>
 
                     <!-- <input type="submit" class="btn btn-primary my-1" value="Run with test rom" id="testRomButton" onclick="TestRom();"> -->
@@ -208,7 +102,7 @@
         </div>
     </div>
     <script type="module" src="./main.js"></script>
-    <iframe id="downloadFrame" style="display:none;"></iframe>
+    <iframe id="downloadFrame"></iframe>
 </body>
 
 </html>
